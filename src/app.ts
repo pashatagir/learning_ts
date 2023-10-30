@@ -44,7 +44,7 @@ function customError(message: string, status: number): never {
   throw { message, status };
 }
 
-console.log(customError("not found", 404));
+// console.log(customError("not found", 404));
 
 // example for Function Type
 function calc(
@@ -135,3 +135,106 @@ const page: PageType = {
   accounts: ["Alex"],
   status: "close",
 };
+
+// !example from notes
+// Use this approach if you expect your method to be copied to another object.
+// class House {
+//   street: string;
+
+//   constructor(n: string) {
+//     this.street = n;
+//   }
+
+//   showAddress(this: House) {
+//     console.log("Address: " + this.street);
+//   }
+// }
+
+// const house = new House("Middle-earth");
+
+// house.showAddress();
+// // the method is copied to another object
+// const houseCopy = { street: "Dummy", showAddress: house.showAddress };
+
+// houseCopy.showAddress();
+
+// !
+
+// class House {
+//   private street: string;
+//   private tenants: string[] = [];
+
+//   constructor(n: string) {
+//     this.street = n;
+//   }
+
+//   public showAddress(this: House) {
+//     console.log("Address: " + this.street);
+//   }
+
+//   public addTenant(tenant: string) {
+//     this.tenants.push(tenant);
+//   }
+
+//   public showTenants() {
+//     console.log(this.tenants);
+//   }
+// }
+
+// const house = new House("Middle-earth");
+
+// house.addTenant("Anton");
+// house.addTenant("Nikita");
+
+// house.showTenants();
+
+// an example of class inheritance
+class House {
+  private tenants: string[] = [];
+
+  constructor(private readonly type: string, private street: string) {}
+
+  public showAddress(this: House) {
+    console.log("Address: " + this.street);
+  }
+
+  public showType(this: House) {
+    console.log("House Type: " + this.type);
+  }
+
+  public addTenant(tenant: string) {
+    this.tenants.push(tenant);
+  }
+
+  public showTenants() {
+    console.log(this.tenants);
+  }
+}
+
+class StoneHouse extends House {
+  private chargeOfTheHouse: string; // Головний в будинку
+
+  constructor(street: string, generalTenant: string) {
+    super("stone", street); // Виклик батьківського конструктора
+
+    // Додаємо власника квартири
+    this.chargeOfTheHouse = generalTenant;
+    this.addTenant(generalTenant);
+  }
+
+  public showTenants() {
+    console.log("General: " + this.chargeOfTheHouse);
+
+    // Запускаємо батьківський метод showTenants();
+    super.showTenants();
+  }
+}
+
+const stoneHouse = new StoneHouse("Stone-world", "Max");
+
+stoneHouse.addTenant("Anton");
+stoneHouse.addTenant("Nikita");
+
+stoneHouse.showTenants();
+stoneHouse.showType();
+stoneHouse.showAddress();
