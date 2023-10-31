@@ -158,7 +158,7 @@ const page: PageType = {
 
 // houseCopy.showAddress();
 
-// !
+// ?
 
 // class House {
 //   private street: string;
@@ -188,7 +188,7 @@ const page: PageType = {
 
 // house.showTenants();
 
-// an example of class inheritance
+// ?an example of class inheritance
 class House {
   private tenants: string[] = [];
 
@@ -238,3 +238,35 @@ stoneHouse.addTenant("Nikita");
 stoneHouse.showTenants();
 stoneHouse.showType();
 stoneHouse.showAddress();
+
+// ?Getter/Setter
+type PersonInformation = {
+  firstName?: string;
+  lastName?: string;
+};
+
+class Person {
+  private personInfo: PersonInformation = {};
+
+  set firstName(value: string) {
+    console.log("firstName added");
+    this.personInfo.firstName = value;
+  }
+
+  set lastName(value: string) {
+    console.log("lastName added");
+    this.personInfo.lastName = value;
+  }
+
+  get info() {
+    const { personInfo } = this;
+    return `${personInfo.firstName} ${personInfo.lastName} `;
+  }
+}
+
+const person = new Person();
+
+person.firstName = "Petha";
+person.lastName = "Pupkin";
+
+console.log(person.info);
