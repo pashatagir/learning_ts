@@ -421,3 +421,123 @@ const pers: ITest = {
 
 // pers.name = "Person name"; //Cannot assign to 'name' because it is a read-only property.
 console.log(pers.name);
+
+// ?unified modeling language(UML) and design patterns
+//imitation
+class Animal {
+  constructor(public name: string) {}
+
+  say() {
+    console.log("Nothing to say");
+  }
+}
+
+class Cat extends Animal {
+  constructor(name: string, private speed: number) {
+    super(name);
+  }
+
+  say() {
+    console.log("Meow!");
+  }
+
+  run(time: number) {
+    return `${this.name} бігла зі швидкістю ${this.speed} протягом ${time} секунд`;
+  }
+}
+
+// dependence
+type ItemType = {
+  name: string;
+};
+
+class Catalog {
+  showCatalog(items: ItemType[]) {
+    items.forEach((item) => {
+      console.log(item.name);
+    });
+  }
+}
+
+class Items {
+  private items: ItemType[] = [];
+  setItem(name: string) {
+    this.items.push({ name });
+  }
+
+  getItems(): ItemType[] {
+    return this.items;
+  }
+}
+
+const items = new Items();
+const catalog = new Catalog();
+
+items.setItem("Catalog 1");
+items.setItem("Catalog 2");
+items.setItem("Catalog 3");
+
+catalog.showCatalog(items.getItems());
+
+// association
+class DB {
+  connection() {
+    console.log("Db connected");
+  }
+}
+
+class Server {
+  constructor(private database: DB) {}
+
+  init() {
+    this.database.connection();
+  }
+}
+
+const db = new DB();
+const server = new Server(db);
+
+server.init();
+
+// aggregation
+class PersonAgregation {
+  constructor(public name: string) {}
+}
+
+class Home {
+  private guests: PersonAgregation[] = [];
+
+  addGuest(guest: PersonAgregation) {
+    this.guests.push(guest);
+  }
+}
+
+const home = new Home();
+
+const guest1 = new PersonAgregation("Max");
+const guest2 = new PersonAgregation("Anton");
+const guest3 = new PersonAgregation("Nikita");
+
+home.addGuest(guest1);
+home.addGuest(guest2);
+home.addGuest(guest3);
+
+// composition
+class PersonCompos {
+  constructor(public name: string) {}
+}
+
+class HomeCompos {
+  private tenants: PersonCompos[] = [];
+
+  addTenant(name: string) {
+    const tenant = new PersonCompos(name);
+    this.tenants.push(tenant);
+  }
+}
+
+const homeCompos = new HomeCompos();
+
+homeCompos.addTenant("Max");
+homeCompos.addTenant("Anton");
+homeCompos.addTenant("Nikita");
