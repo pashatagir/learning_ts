@@ -297,3 +297,127 @@ obj2.showCount();
 obj3.showCount();
 
 UseStatic.itStaticMethod();
+
+// ?abstract ckasses and method
+// abstract class Plane {
+//   protected pilotInCabin = false;
+
+//   public sitInPlane() {
+//     this.pilotInCabin = true;
+//   }
+
+//   public abstract startEngine(): boolean;
+// }
+
+// class Maize extends Plane {
+//   public startEngine() {
+//     // Запускаємо гвинти двигуна
+//     return true;
+//   }
+// }
+
+// class Boeing extends Plane {
+//   public startEngine() {
+//     // Розігріваємо реактивні турбіни
+//     return true;
+//   }
+// }
+
+// ?intarface classes
+interface IPerson {
+  name: string;
+  age: number;
+
+  greet(phrase: string): void;
+}
+
+interface IPilot {
+  flyMessage(): void;
+}
+
+class Pilot implements IPerson, IPilot {
+  constructor(public name: string, public age: number) {
+    if (this.age < 28) {
+      throw new Error("Pilot too young");
+    }
+  }
+
+  greet(phrase: string): void {
+    console.log(phrase + " " + this.name);
+  }
+
+  flyMessage(): void {
+    console.log("Літак набрав висоту, всім приємного польоту!");
+  }
+}
+
+abstract class Plane {
+  protected pilot?: IPilot;
+
+  public sitInPlane(pilot: IPilot): void {
+    this.pilot = pilot;
+  }
+
+  public abstract startEngine(): boolean;
+}
+
+class Boeing extends Plane {
+  public startEngine(): boolean {
+    if (!this.pilot) {
+      throw new Error("No pilot in cabin");
+    }
+    // Розігріваємо реактивні турбіни
+    console.log("Запуск турбін");
+
+    this.pilot.flyMessage();
+    return true;
+  }
+}
+
+// const boeing = new Boeing();
+// const pilot = new Pilot("Anthony", 32);
+
+// Капітан вітає пасажирів на трапі
+// pilot.greet("Вас вітає капітан корабля");
+
+// Займає місце пілота
+// boeing.sitInPlane(pilot);
+
+// Запускаємо двигуни
+// boeing.startEngine();
+
+class Terrorist implements IPilot {
+  bluff(phrase: string): void {
+    console.log(phrase);
+  }
+
+  flyMessage(): void {
+    console.log(
+      "Наші вимоги 9 мільйонів, інакше ми можемо вбити всіх заручників"
+    );
+  }
+}
+
+const boeing = new Boeing();
+const pilot = new Terrorist();
+
+//Капітан вітає пасажирів на трапі
+pilot.bluff("Ми захопили цей літак!");
+
+// Займає місце пілота
+boeing.sitInPlane(pilot);
+
+// Запускаємо двигуни
+boeing.startEngine();
+
+// ?readonly in interface
+interface ITest {
+  readonly name: string;
+}
+
+const pers: ITest = {
+  name: "Person Name",
+};
+
+// pers.name = "Person name"; //Cannot assign to 'name' because it is a read-only property.
+console.log(pers.name);
