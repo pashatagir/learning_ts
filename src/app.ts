@@ -541,3 +541,74 @@ const homeCompos = new HomeCompos();
 homeCompos.addTenant("Max");
 homeCompos.addTenant("Anton");
 homeCompos.addTenant("Nikita");
+
+//?some patterns
+// Singleton
+class Singleton {
+  private static instance: Singleton;
+
+  constructor() {
+    if (Singleton.instance) {
+      return Singleton.instance;
+    }
+
+    Singleton.instance = this;
+
+    return Singleton.instance;
+  }
+
+  public someBusinessLogic() {
+    // ...
+  }
+}
+
+const s1 = new Singleton();
+const s2 = new Singleton();
+
+if (s1 === s2) {
+  console.log("Той самий об`єкт");
+} else {
+  console.log("Щось не так, отримали різні об`єкти");
+}
+
+// Factory
+interface IProduct {
+  getInfo(): void;
+}
+
+class Small implements IProduct {
+  getInfo(): void {
+    console.log("I'm small");
+  }
+}
+class Big implements IProduct {
+  getInfo(): void {
+    console.log("I'm big");
+  }
+}
+
+class Factory {
+  private objects = {
+    small: Small,
+    big: Big,
+  } as any;
+
+  create(type: string): IProduct {
+    const { objects } = this;
+
+    type = type.toLowerCase();
+    if (!objects[type]) {
+      throw new Error("No classes to create");
+    }
+
+    return new objects[type]();
+  }
+}
+
+const factory = new Factory();
+
+const small = factory.create("small");
+const big = factory.create("big");
+
+small.getInfo();
+big.getInfo();
