@@ -1,13 +1,13 @@
 // example for UnionType
-function combine(param1: string | number, param2: string | number) {
+function combine1(param1: string | number, param2: string | number) {
   if (typeof param1 === "number" && typeof param2 === "number") {
     return param1 + param2;
   }
   return param1.toString() + param2.toString();
 }
 
-console.log(combine(2, 3));
-console.log(combine("str1", "str2"));
+console.log(combine1(2, 3));
+console.log(combine1("str1", "str2"));
 
 // example for LiteralType
 const fruit: string[] = [];
@@ -34,10 +34,10 @@ function print(): void {
 print();
 
 //example for Return Type - function returns specified type
-function combine1(num1: number, num2: number): number {
+function combine2(num1: number, num2: number): number {
   return num1 + num2;
 }
-console.log(combine1(60, 1));
+console.log(combine2(60, 1));
 
 // example for Never
 function customError(message: string, status: number): never {
