@@ -122,3 +122,57 @@ const personP = new PersonP(key);
 house.openDoor(personP.getKey());
 
 house.comeIn(personP);
+
+// ?Generics
+// 1)
+type Arr = Array<string | number>;
+function getPromise(): Promise<Arr> {
+  return new Promise((resolve) => {
+    resolve(["Text", 50]);
+  });
+}
+
+getPromise().then((data) => {
+  console.log(data);
+});
+
+// 2)
+type AllType = {
+  name: string;
+  position: number;
+  color: string;
+  weight: number;
+};
+
+function compare(
+  top: Pick<AllType, "name" | "color">,
+  bottom: Pick<AllType, "position" | "weight">
+): AllType {
+  return {
+    name: top.name,
+    color: top.color,
+    position: bottom.position,
+    weight: bottom.weight,
+  };
+}
+
+// 3)
+function getMerge<T extends object, U extends object>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
+}
+
+// !4)I failed with this practice
+// You have the following classes
+// Only by adding generics for classes and the interface, remove the error.
+interface IProps {
+  title: string;
+}
+class Component<T> {
+  constructor(public props: T) {}
+}
+
+class Page extends Component<IProps> {
+  pageInfo() {
+    console.log(this.props.title);
+  }
+}
